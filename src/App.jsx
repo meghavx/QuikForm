@@ -1,9 +1,14 @@
 import React from 'react';
+import FieldPalette from './components/FieldPalette';
+import Canvas from './components/Canvas';
+import FieldEditor from './components/FieldEditor';
 
 export default function App() {
   return (
-     <>
-      <h1>QuikForm</h1>
-    </>
+    <div className="flex h-screen">
+      <FieldPalette />
+      <Canvas />
+      <FieldEditor />
+    </div>
   )
 }
