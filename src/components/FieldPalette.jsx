@@ -1,14 +1,25 @@
 import React from 'react'
 import { useFormStore } from '../store/useFormStore'
 
-const fieldTypes = ['Text', 'Textarea', 'Dropdown', 'Checkbox', 'Radio Button', 'Date']
+const fieldTypes = [
+  'Header', 
+  'Text', 
+  'Textarea', 
+  'Email', 
+  'Date', 
+  'Dropdown', 
+  'Checkbox', 
+  'Radio Group', 
+  'Number', 
+  'Button', 
+  'File Upload'
+]
 
 export default function FieldPalette() {
   const addField = useFormStore((s) => s.addField)
 
   return (
     <div className="w-1/4 p-4 border-r">
-      <h2 className="text-lg font-semibold mb-2">Add Field</h2>
       {fieldTypes.map((type) => (
         <button
           key={type}
