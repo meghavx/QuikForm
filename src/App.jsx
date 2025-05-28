@@ -1,11 +1,9 @@
-import './App.css'
+import React from 'react';
 
-function App() {
+export default function App() {
   return (
-    <>
+     <>
       <h1>QuikForm</h1>
     </>
   )
 }
-
-export default App
