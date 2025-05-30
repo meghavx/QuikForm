@@ -7,6 +7,60 @@ export default function Canvas() {
   const setSelectedField = useFormStore((s) => s.setSelectedField)
   const { setNodeRef, isOver } = useDroppable({ id: 'canvas' })
 
+  const renderInput = (field) => {
+    switch (field.inputType) {
+      case 'textarea':
+        return (
+          <textarea
+            className="w-full border px-2 py-1"
+            placeholder={field.placeholder}
+            disabled
+          />
+        )
+      case 'select':
+        return (
+          <select className="w-full border px-2 py-1" disabled>
+            {field.options.map((opt, i) => (
+              <option key={i}>{opt}</option>
+            ))}
+          </select>
+        )
+      case 'checkbox':
+        return field.options.map((opt, i) => (
+          <label key={i} className="block">
+            <input type="checkbox" name={field.id} className="mr-2" disabled />
+            {opt}
+          </label>
+        ))
+      case 'radio':
+        return field.options.map((opt, i) => (
+          <label key={i} className="block">
+            <input type="radio" name={field.id} className="mr-2" disabled />
+            {opt}
+          </label>
+        ))
+      case 'file':
+        return <input type="file" className="w-full border px-2 py-1" disabled />
+      case 'button':
+        return (
+          <button className="px-3 py-1 bg-gray-300 rounded" disabled>
+            {field.label}
+          </button>
+        )
+      case 'header':
+        return <h3 className="text-xl font-bold">{field.label}</h3>
+      default:
+        return (
+          <input
+            type={field.inputType}
+            className="w-full border px-2 py-1"
+            placeholder={field.placeholder}
+            disabled
+          />
+        )
+    }
+  }
+
   return (
     <div
       ref={setNodeRef}
@@ -25,12 +79,10 @@ export default function Canvas() {
           className="p-2 border mb-2 rounded cursor-pointer hover:bg-gray-100"
           onClick={() => setSelectedField(field.id)}
         >
-          <label className="block font-medium">{field.label}</label>
-          <input
-            className="w-full border px-2 py-1"
-            placeholder={field.placeholder}
-            disabled
-          />
+          {!['header', 'button'].includes(field.inputType) && (
+            <label className="block font-medium">{field.label}</label>
+          )}
+          {renderInput(field)}
         </div>
       ))}
     </div>
