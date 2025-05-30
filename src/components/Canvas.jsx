@@ -1,13 +1,24 @@
 import React from 'react'
 import { useFormStore } from '../store/useFormStore'
+import { useDroppable } from '@dnd-kit/core'
 
 export default function Canvas() {
   const fields = useFormStore((s) => s.fields)
   const setSelectedField = useFormStore((s) => s.setSelectedField)
+  const { setNodeRef, isOver } = useDroppable({ id: 'canvas' })
 
   return (
-    <div className="w-2/4 p-4 border-r">
-      <h2 className="text-lg font-semibold mb-2">Form Canvas</h2>
+    <div
+      ref={setNodeRef}
+      className={`w-2/4 p-4 transition-all border-r min-h-screen ${
+        isOver ? 'bg-green-100' : ''
+      }`}
+    >
+      {fields.length === 0 && (
+        <div className="text-gray-400 text-center mt-10">
+          Drag a field here to start building your form
+        </div>
+      )}
       {fields.map((field) => (
         <div
           key={field.id}
