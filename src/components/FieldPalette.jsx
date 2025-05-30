@@ -37,7 +37,7 @@ function DraggableField({ id }) {
       {...listeners}
       {...attributes}
       className={`block w-full mb-2 px-3 py-1 text-white text-center rounded cursor-move ${
-        isDragging ? 'bg-blue-700' : 'bg-blue-500'
+        isDragging ? 'bg-blue-700' : 'bg-blue-500 hover:bg-blue-700'
       }`}
     >
       {id}
