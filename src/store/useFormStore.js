@@ -32,6 +32,13 @@ export const useFormStore = create(
       reorderFields: (newFields) => set({ fields: newFields }),
 
       setSelectedField: (id) => set({ selectedFieldId: id }),
+
+      deleteField: (id) =>
+        set((state) => ({
+          fields: state.fields.filter((field) => field.id !== id),
+          selectedFieldId: state.selectedFieldId === id ? null : state.selectedFieldId,
+        })),
+
     }),
     {
       name: 'form-builder-store',

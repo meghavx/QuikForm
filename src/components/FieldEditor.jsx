@@ -5,6 +5,7 @@ export default function FieldEditor() {
   const fields = useFormStore((s) => s.fields)
   const selectedFieldId = useFormStore((s) => s.selectedFieldId)
   const updateField = useFormStore((s) => s.updateField)
+  const deleteField = useFormStore((s) => s.deleteField)
 
   const field = fields.find((f) => f.id === selectedFieldId)
   if (!field) return <div className="w-1/4 p-4">Select a field to edit</div>
@@ -37,6 +38,16 @@ export default function FieldEditor() {
         />
         Required
       </label>
+      <button
+        onClick={() => {
+          if (confirm('This action will delete this field.')) {
+            deleteField(field.id)
+          }
+        }}
+        className="mt-4 bg-gray-400 text-sm px-2 py-1 rounded hover:bg-gray-500"
+      >
+        Delete Field
+      </button>
     </div>
   )
 }
