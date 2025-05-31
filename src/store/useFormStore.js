@@ -25,7 +25,6 @@ export const useFormStore = create(
           'Radio Group': 'radio',
           'Textarea': 'textarea',
           'Dropdown': 'select',
-          'Button': 'button',
           'Header': 'header'
         }
 

@@ -12,7 +12,6 @@ const fieldTypes = [
   'Checkbox Group', 
   'Radio Group', 
   'Number', 
-  'Button', 
   'File Upload'
 ]
 

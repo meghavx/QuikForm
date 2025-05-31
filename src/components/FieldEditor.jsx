@@ -25,7 +25,7 @@ export default function FieldEditor() {
     updateField(field.id, { options: newOptions })
   }
 
-  const showPlaceholder = !['header', 'select', 'checkbox', 'radio', 'button', 'file'].includes(field.inputType)
+  const showPlaceholder = !['header', 'select', 'checkbox', 'radio', 'file'].includes(field.inputType)
   const showOptions = ['select', 'radio', 'checkbox'].includes(field.inputType)
 
   return (
