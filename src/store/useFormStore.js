@@ -5,9 +5,12 @@ import { nanoid } from 'nanoid'
 
 export const useFormStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
+      formId: null,
       fields: [],
       selectedFieldId: null,
+      preview: false,
+      shareableLink: '',
 
       addField: (type) => {
         const id = uuidv4()
@@ -59,24 +62,30 @@ export const useFormStore = create(
           selectedFieldId: state.selectedFieldId === id ? null : state.selectedFieldId,
         })),
 
-      preview: false,
-
       togglePreview: () =>
         set((state) => ({
           preview: !state.preview,
-        })),  
+        })),
 
-      shareableLink: '',
+      generateShareLink: () => {
+        const state = get()
+        let formId = state.formId
+        if (!formId) {
+          formId = nanoid(8)
+          set({ formId })
+        }
+        localStorage.setItem(`shared-form-${formId}`, JSON.stringify(state.fields))
+        const link = `${window.location.origin}/shared?formId=${formId}`
+        set({ shareableLink: link })
+      },
 
-      generateShareLink: () =>
-        set((state) => {
-          const formId = nanoid(8)
-          localStorage.setItem(`shared-form-${formId}`, JSON.stringify(state.fields))
-          const link = `${window.location.origin}/shared?formId=${formId}`
-          return { shareableLink: link }
-        }), 
-        
-      clearForm: () => set({ fields: [], selectedFieldId: null }),
+      clearForm: () =>
+        set({
+          fields: [],
+          selectedFieldId: null,
+          formId: null,
+          shareableLink: ''
+        }),
     }),
     {
       name: 'form-builder-store',
