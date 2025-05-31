@@ -71,7 +71,7 @@ export default function Canvas() {
   return (
     <div
       ref={setNodeRef}
-      className={`w-2/4 p-4 transition-all border-r min-h-screen ${
+      className={`w-2/4 p-4 transition-all border-r h-[calc(100vh-72px)] overflow-y-auto ${
         isOver ? 'bg-green-100' : ''
       }`}
     >
