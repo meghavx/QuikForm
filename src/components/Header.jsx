@@ -26,11 +26,10 @@ export default function Header() {
       <div className="ml-auto">
         <button
           onClick={togglePreview}
-          className="flex items-center gap-2 px-4 py-2 bg-[#8F94FB] text-[#311B92] border border-[#311B92] font-medium rounded shadow hover:brightness-95 transition"
+          className="px-4 py-2 text-[#311B92] transition hover:scale-105"
           title={preview ? 'Exit Preview' : 'Preview Form'}
         >
-          {preview ? <EyeOff size={20} /> : <Eye size={20} />}
-          {preview ? 'Exit Preview' : 'Preview Form'}
+          {preview ? <EyeOff size={22} /> : <Eye size={22} />}
         </button>
       </div>
     </header>
