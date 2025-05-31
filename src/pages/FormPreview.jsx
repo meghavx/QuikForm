@@ -4,19 +4,116 @@ import { useParams } from 'react-router-dom'
 export default function FormPreview() {
   const { formId } = useParams()
   const [fields, setFields] = useState([])
+  const [values, setValues] = useState({})
+  const [errors, setErrors] = useState({})
 
   useEffect(() => {
     const saved = localStorage.getItem(`shared-form-${formId}`)
     if (saved) {
-      setFields(JSON.parse(saved))
+      const parsedFields = JSON.parse(saved)
+      setFields(parsedFields)
+
+      const initialValues = {}
+      const initialErrors = {}
+      parsedFields.forEach((f) => {
+        if (f.inputType === 'checkbox') {
+          initialValues[f.id] = [] // initialize as array for checkbox group
+        } else {
+          initialValues[f.id] = ''
+        }
+        initialErrors[f.id] = ''
+      })
+      setValues(initialValues)
+      setErrors(initialErrors)
     }
   }, [formId])
 
   const handleResetForm = (e) => {
     e.preventDefault()
-    const form = document.querySelector('form')
-    if (form) {
-      form.reset()
+    const resetValues = {}
+    const resetErrors = {}
+    fields.forEach((f) => {
+      resetValues[f.id] = f.inputType === 'checkbox' ? [] : ''
+      resetErrors[f.id] = ''
+    })
+    setValues(resetValues)
+    setErrors(resetErrors)
+  }
+
+  const validateField = (field, value) => {
+    const { inputType, required, minLength, maxLength, pattern } = field
+
+    if (required && (Array.isArray(value) ? value.length === 0 : !value.trim())) {
+      return 'This field is required.'
+    }
+
+    if (minLength && value.length < minLength) {
+      return `Minimum length is ${minLength}`
+    }
+
+    if (maxLength && value.length > maxLength) {
+      return `Maximum length is ${maxLength}`
+    }
+
+    if (pattern) {
+      const regex = new RegExp(pattern)
+      if (!regex.test(value)) {
+        return 'Invalid format.'
+      }
+    }
+
+    if (inputType === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(value)) {
+        return 'Invalid email address.'
+      }
+    }
+
+    if (inputType === 'tel') {
+      const phoneRegex = /^[0-9+\-()\s]{7,15}$/
+      if (!phoneRegex.test(value)) {
+        return 'Invalid phone number.'
+      }
+    }
+
+    return ''
+  }
+
+  const handleChange = (e, field) => {
+    const { id, inputType } = field
+    let value = e.target.value
+
+    if (inputType === 'checkbox') {
+      const checked = e.target.checked
+      const optionValue = e.target.value
+      const currentValues = values[id] || []
+
+      value = checked
+        ? [...currentValues, optionValue]
+        : currentValues.filter((v) => v !== optionValue)
+    }
+
+    setValues((prev) => ({ ...prev, [id]: value }))
+    const error = validateField(field, value)
+    setErrors((prev) => ({ ...prev, [id]: error }))
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const newErrors = {}
+    let hasError = false
+
+    fields.forEach((field) => {
+      const error = validateField(field, values[field.id])
+      if (error) hasError = true
+      newErrors[field.id] = error
+    })
+
+    setErrors(newErrors)
+
+    if (!hasError) {
+      alert('Form submitted successfully!')
+      console.log('Submitted values:', values)
     }
   }
 
@@ -26,11 +123,11 @@ export default function FormPreview() {
 
   return (
     <div className="max-w-xl mx-auto p-4">
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit}>
         {fields.map((field) => {
-          const { id, label, inputType, placeholder, options, type } = field
+          const { id, label, inputType, placeholder, options = [] } = field
 
-          if (type === 'Header') {
+          if (inputType === 'header') {
             return (
               <div key={id}>
                 <h2 className="text-3xl font-bold text-center my-4">{label}</h2>
@@ -38,38 +135,53 @@ export default function FormPreview() {
             )
           }
 
-          if (type === 'Radio Group') {
+          if (inputType === 'radio') {
             return (
               <div key={id}>
                 <label className="block font-medium mb-1">{label}</label>
                 <div className="space-y-1 pl-2">
                   {options.map((opt, idx) => (
-                    <div key={idx}>
-                      <label className="inline-flex items-center">
-                        <input type="radio" name={id} className="mr-2" />
-                        {opt}
-                      </label>
-                    </div>
+                    <label key={idx} className="inline-flex items-center mr-4">
+                      <input
+                        type="radio"
+                        name={id}
+                        value={opt}
+                        checked={values[id] === opt}
+                        onChange={(e) => handleChange(e, field)}
+                        className="mr-2"
+                      />
+                      {opt}
+                    </label>
                   ))}
                 </div>
+                {errors[id] && (
+                  <p className="text-sm text-red-500 mt-1">{errors[id]}</p>
+                )}
               </div>
             )
           }
 
-          if (type === 'Checkbox Group') {
+          if (inputType === 'checkbox') {
             return (
               <div key={id}>
                 <label className="block font-medium mb-1">{label}</label>
                 <div className="space-y-1 pl-2">
                   {options.map((opt, idx) => (
-                    <div key={idx}>
-                      <label className="inline-flex items-center">
-                        <input type="checkbox" className="mr-2" />
-                        {opt}
-                      </label>
-                    </div>
+                    <label key={idx} className="inline-flex items-center mr-4">
+                      <input
+                        type="checkbox"
+                        value={opt}
+                        checked={(values[id] || []).includes(opt)}
+                        onChange={(e) => handleChange(e, field)}
+                        className="mr-2"
+                      />
+                      {opt}
+                    </label>
                   ))}
                 </div>
+                {errors[id] && (
+                  <p className="text-sm text-red-500 mt-1">{errors[id]}</p>
+                )}
               </div>
             )
           }
@@ -81,9 +193,16 @@ export default function FormPreview() {
                 <textarea
                   className="w-full border rounded p-2"
                   placeholder={placeholder}
+                  value={values[id]}
+                  onChange={(e) => handleChange(e, field)}
                 />
               ) : inputType === 'select' ? (
-                <select className="w-full border rounded p-2">
+                <select
+                  className="w-full border rounded p-2"
+                  value={values[id]}
+                  onChange={(e) => handleChange(e, field)}
+                >
+                  <option value="">Select an option</option>
                   {options.map((opt, idx) => (
                     <option key={idx}>{opt}</option>
                   ))}
@@ -93,17 +212,21 @@ export default function FormPreview() {
                   type={inputType}
                   placeholder={placeholder}
                   className="w-full border rounded p-2"
+                  value={values[id]}
+                  onChange={(e) => handleChange(e, field)}
                 />
+              )}
+              {errors[id] && (
+                <p className="text-sm text-red-500 mt-1">{errors[id]}</p>
               )}
             </div>
           )
         })}
 
-        {/* Submit Button and Reset Form option */}
         <div className="flex justify-between pt-4">
           <button
             type="submit"
-            className="w-24 px-4 py-2 font-medium rounded border border-[#311B92] bg-[#F0EBF8] text-[#311B92]"
+            className="w-24 px-4 py-2 font-medium rounded border border-[#311B92] bg-[#F0EBF8] text-[#311B92] hover:opacity-80 transition-opacity"
           >
             Submit
           </button>
