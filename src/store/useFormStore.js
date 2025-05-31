@@ -75,7 +75,7 @@ export const useFormStore = create(
           set({ formId })
         }
         localStorage.setItem(`shared-form-${formId}`, JSON.stringify(state.fields))
-        const link = `${window.location.origin}/shared?formId=${formId}`
+        const link = `${window.location.origin}/forms/${formId}`
         set({ shareableLink: link })
       },
 
