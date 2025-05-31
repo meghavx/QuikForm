@@ -64,6 +64,15 @@ export const useFormStore = create(
         set((state) => ({
           preview: !state.preview,
         })),  
+
+      shareableLink: '',
+
+      generateShareLink: () =>
+        set((state) => {
+          const encoded = encodeURIComponent(JSON.stringify(state.fields))
+          const link = `${window.location.origin}/shared?data=${encoded}`
+          return { shareableLink: link }
+        }),  
     }),
     {
       name: 'form-builder-store',
