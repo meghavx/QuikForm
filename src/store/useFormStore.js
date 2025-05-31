@@ -17,7 +17,7 @@ export const useFormStore = create(
           'Date': 'date',
           'Number': 'number',
           'File Upload': 'file',
-          'Checkbox': 'checkbox',
+          'Checkbox Group': 'checkbox',
           'Radio Group': 'radio',
           'Textarea': 'textarea',
           'Dropdown': 'select',
@@ -33,7 +33,7 @@ export const useFormStore = create(
           label: `${type} field`,
           required: false,
           placeholder: '',
-          options: ['Dropdown', 'Radio Group', 'Checkbox'].includes(type) ? ['Option 1'] : [],
+          options: ['Dropdown', 'Radio Group', 'Checkbox Group'].includes(type) ? ['Option 1'] : [],
           inputType
         }
 
