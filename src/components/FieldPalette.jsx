@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDraggable } from '@dnd-kit/core'
+import { GripVertical } from 'lucide-react'
 
 const fieldTypes = [
   'Header', 
@@ -8,7 +9,7 @@ const fieldTypes = [
   'Email', 
   'Date', 
   'Dropdown', 
-  'Checkbox', 
+  'Checkbox Group', 
   'Radio Group', 
   'Number', 
   'Button', 
@@ -36,11 +37,14 @@ function DraggableField({ id }) {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      className={`block w-full mb-2 px-3 py-1 text-white text-center rounded cursor-move ${
-        isDragging ? 'bg-blue-700' : 'bg-blue-500 hover:bg-blue-700'
+      className={`flex items-center gap-4 w-full mb-2 px-3 py-1 font-semibold rounded cursor-move transition-colors duration-200 ${
+        isDragging
+          ? 'bg-[#311B92] text-[#8F94FB]'
+          : 'bg-[#8F94FB] text-[#311B92] hover:bg-[#311B92] hover:text-[#8F94FB]'
       }`}
     >
-      {id}
+      <GripVertical className="w-4 h-4 opacity-70" />
+      <span>{id}</span>
     </div>
   )
 }
