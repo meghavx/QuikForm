@@ -58,6 +58,12 @@ export const useFormStore = create(
           selectedFieldId: state.selectedFieldId === id ? null : state.selectedFieldId,
         })),
 
+      preview: false,
+
+      togglePreview: () =>
+        set((state) => ({
+          preview: !state.preview,
+        })),  
     }),
     {
       name: 'form-builder-store',

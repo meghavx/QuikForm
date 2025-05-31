@@ -6,20 +6,21 @@ export default function Canvas() {
   const fields = useFormStore((s) => s.fields)
   const setSelectedField = useFormStore((s) => s.setSelectedField)
   const { setNodeRef, isOver } = useDroppable({ id: 'canvas' })
+  const preview = useFormStore((s) => s.preview)
 
   const renderInput = (field) => {
+    const commonProps = {
+      className: 'w-full border px-2 py-1',
+      placeholder: field.placeholder,
+      disabled: !preview,
+    }
+  
     switch (field.inputType) {
       case 'textarea':
-        return (
-          <textarea
-            className="w-full border px-2 py-1"
-            placeholder={field.placeholder}
-            disabled
-          />
-        )
+        return <textarea {...commonProps} />
       case 'select':
         return (
-          <select className="w-full border px-2 py-1" disabled>
+          <select {...commonProps}>
             {field.options.map((opt, i) => (
               <option key={i}>{opt}</option>
             ))}
@@ -28,36 +29,42 @@ export default function Canvas() {
       case 'checkbox':
         return field.options.map((opt, i) => (
           <label key={i} className="block">
-            <input type="checkbox" name={field.id} className="mr-2" disabled />
+            <input 
+              type="checkbox" 
+              name={field.id} 
+              className="mr-2" 
+              disabled={!preview} 
+            />
             {opt}
           </label>
         ))
       case 'radio':
         return field.options.map((opt, i) => (
           <label key={i} className="block">
-            <input type="radio" name={field.id} className="mr-2" disabled />
+            <input 
+              type="radio" 
+              name={field.id} 
+              className="mr-2" 
+              disabled={!preview} 
+            />
             {opt}
           </label>
         ))
       case 'file':
-        return <input type="file" className="w-full border px-2 py-1" disabled />
+        return <input type="file" {...commonProps} />
       case 'button':
         return (
-          <button className="px-3 py-1 bg-gray-300 rounded" disabled>
+          <button 
+            className="px-3 py-1 bg-gray-300 rounded" 
+            disabled={!preview} 
+          >
             {field.label}
           </button>
         )
       case 'header':
         return <h3 className="text-xl font-bold">{field.label}</h3>
       default:
-        return (
-          <input
-            type={field.inputType}
-            className="w-full border px-2 py-1"
-            placeholder={field.placeholder}
-            disabled
-          />
-        )
+        return <input type={field.inputType} {...commonProps} />
     }
   }
 

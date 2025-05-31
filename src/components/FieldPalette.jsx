@@ -37,10 +37,10 @@ function DraggableField({ id }) {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      className={`flex items-center gap-4 w-full mb-2 px-3 py-1 font-semibold rounded cursor-move transition-colors duration-200 ${
+      className={`flex items-center gap-4 w-full mb-2 px-3 py-1 font-medium rounded cursor-move transition-colors duration-200 ${
         isDragging
           ? 'bg-[#311B92] text-[#8F94FB]'
-          : 'bg-[#8F94FB] text-[#311B92] hover:bg-[#311B92] hover:text-[#8F94FB]'
+          : 'bg-[#8F94FB] text-[#311B92] hover:bg-[#311B92] hover:text-white'
       }`}
     >
       <GripVertical className="w-4 h-4 opacity-70" />

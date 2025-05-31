@@ -14,6 +14,7 @@ import {
 export default function App() {
   const sensors = useSensors(useSensor(PointerSensor));
   const addField = useFormStore((s) => s.addField);
+   const preview = useFormStore((s) => s.preview);
 
   const handleDragEnd = (event) => {
     const { over, active } = event
@@ -28,10 +29,10 @@ export default function App() {
       onDragEnd={handleDragEnd}
     >
       <Header />
-      <div className="flex h-screen">
-        <FieldPalette />
+      <div className={`h-screen ${preview ? 'flex justify-center items-center' : 'flex'}`}>
+        {!preview && <FieldPalette />}
         <Canvas />
-        <FieldEditor />
+        {!preview && <FieldEditor />}
       </div>
     </DndContext>
   )
