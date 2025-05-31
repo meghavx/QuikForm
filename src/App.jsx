@@ -29,7 +29,7 @@ export default function App() {
       onDragEnd={handleDragEnd}
     >
       <Header />
-      <div className={`h-screen ${preview ? 'flex justify-center items-center' : 'flex'}`}>
+      <div className="flex h-screen justify-center">
         {!preview && <FieldPalette />}
         <Canvas />
         {!preview && <FieldEditor />}
