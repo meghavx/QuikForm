@@ -2,7 +2,7 @@ export default function Header() {
   return (
     <header
       className="flex items-center space-x-4 px-6 py-4"
-      style={{ backgroundColor: "#311B92" }}
+      style={{ backgroundColor: "#8F94FB" }}
     >
       <img
         src="logo.png"
@@ -10,8 +10,8 @@ export default function Header() {
         className="w-10 h-10 object-contain"
       />
       <h2
-        className="text-2xl font-semibold"
-        style={{ color: "#E8DAEF" }}
+        className="text-2xl font-bold"
+        style={{ color: "#311B92" }}
       >
         QuikForm
       </h2>
