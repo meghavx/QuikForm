@@ -46,8 +46,8 @@ export default function Header() {
             onClick={handleClear}
             disabled={fields.length === 0}
             className={`px-2 py-2 ${fields.length > 0 
-              ? 'text-[#311B92] transition hover:scale-105' 
-              : 'text-gray-500'
+              ? "text-[#311B92] transition hover:scale-105" 
+              : "text-gray-500"
             }`}
             title="Clear Form"
           >
@@ -58,7 +58,11 @@ export default function Header() {
         {preview && (
           <button
             onClick={handleShare}
-            className="py-2 text-[#311B92] transition hover:scale-105"
+            disabled={fields.length === 0}
+            className={`py-2 ${fields.length > 0 
+              ? "text-[#311B92] transition hover:scale-105"
+              : "text-gray-500"
+            }`} 
             title="Share Form"
           >
             <Share2 size={21} />
