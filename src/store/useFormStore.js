@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { v4 as uuidv4 } from 'uuid'
+import { nanoid } from 'nanoid'
 
 export const useFormStore = create(
   persist(
@@ -69,8 +70,9 @@ export const useFormStore = create(
 
       generateShareLink: () =>
         set((state) => {
-          const encoded = encodeURIComponent(JSON.stringify(state.fields))
-          const link = `${window.location.origin}/shared?data=${encoded}`
+          const formId = nanoid(8)
+          localStorage.setItem(`shared-form-${formId}`, JSON.stringify(state.fields))
+          const link = `${window.location.origin}/shared?formId=${formId}`
           return { shareableLink: link }
         }),  
     }),
