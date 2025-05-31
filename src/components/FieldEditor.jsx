@@ -90,11 +90,7 @@ export default function FieldEditor() {
       )}
 
       <button
-        onClick={() => {
-          if (confirm('This action will delete this field.')) {
-            deleteField(field.id)
-          }
-        }}
+        onClick={() => deleteField(field.id)}
         className="mt-4 bg-gray-400 text-sm px-2 py-1 rounded hover:bg-gray-500"
       >
         Delete Field
