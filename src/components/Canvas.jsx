@@ -6,13 +6,12 @@ export default function Canvas() {
   const fields = useFormStore((s) => s.fields)
   const setSelectedField = useFormStore((s) => s.setSelectedField)
   const { setNodeRef, isOver } = useDroppable({ id: 'canvas' })
-  const preview = useFormStore((s) => s.preview)
 
   const renderInput = (field) => {
     const commonProps = {
       className: 'w-full border px-2 py-1',
       placeholder: field.placeholder,
-      disabled: !preview,
+      disabled: true,
     }
   
     switch (field.inputType) {
@@ -37,7 +36,7 @@ export default function Canvas() {
               type="radio" 
               name={field.id} 
               className="mr-2" 
-              disabled={!preview} 
+              disabled 
             />
             {opt}
           </label>
@@ -49,7 +48,7 @@ export default function Canvas() {
               type="checkbox" 
               name={field.id} 
               className="mr-2" 
-              disabled={!preview} 
+              disabled 
             />
             {opt}
           </label>
