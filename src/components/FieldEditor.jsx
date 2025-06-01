@@ -35,7 +35,7 @@ export default function FieldEditor() {
     })
   }
 
-  const showPlaceholder = !['header', 'select', 'checkbox', 'radio', 'file'].includes(field.inputType)
+  const showPlaceholder = !['header', 'subheader', 'select', 'radio', 'checkbox', 'file'].includes(field.inputType)
   const showOptions = ['select', 'radio', 'checkbox'].includes(field.inputType)
 
   return (

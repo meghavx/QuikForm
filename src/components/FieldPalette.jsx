@@ -4,15 +4,17 @@ import { GripVertical } from 'lucide-react'
 
 const fieldTypes = [
   'Header', 
+  'Subheader',
   'Text', 
   'Textarea', 
   'Email', 
   'Date', 
-  'Dropdown', 
-  'Checkbox Group', 
-  'Radio Group', 
   'Number', 
-  'File Upload'
+  'Dropdown', 
+  'Radio Group',
+  'Checkbox Group',  
+  'URL',
+  'File Upload',
 ]
 
 export default function FieldPalette() {

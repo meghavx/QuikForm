@@ -16,16 +16,18 @@ export const useFormStore = create(
         const id = uuidv4()
 
         const inputTypeMap = {
+          'Header': 'header',
+          'Subheader' : 'subheader',
           'Text': 'text',
+          'Textarea': 'textarea',
           'Email': 'email',
           'Date': 'date',
           'Number': 'number',
-          'File Upload': 'file',
-          'Checkbox Group': 'checkbox',
-          'Radio Group': 'radio',
-          'Textarea': 'textarea',
           'Dropdown': 'select',
-          'Header': 'header'
+          'Radio Group': 'radio',
+          'Checkbox Group': 'checkbox',
+          'URL': 'url',
+          'File Upload': 'file',
         }
 
         const inputType = inputTypeMap[type] || 'text'
@@ -39,7 +41,6 @@ export const useFormStore = create(
           options: ['Dropdown', 'Radio Group', 'Checkbox Group'].includes(type) ? ['Option 1'] : [],
           inputType
         }
-
         set((state) => ({ fields: [...state.fields, newField] }))
       },
 

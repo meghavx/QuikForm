@@ -16,6 +16,10 @@ export default function Canvas() {
     }
   
     switch (field.inputType) {
+      case 'header':
+        return <h1 className="text-4xl font-semibold text-center">{field.label}</h1>
+      case 'subheader':
+        return <h3 className="text-sm text-justify italic">{field.label}</h3>  
       case 'textarea':
         return <textarea {...commonProps} />
       case 'select':
@@ -26,18 +30,6 @@ export default function Canvas() {
             ))}
           </select>
         )
-      case 'checkbox':
-        return field.options.map((opt, i) => (
-          <label key={i} className="block">
-            <input 
-              type="checkbox" 
-              name={field.id} 
-              className="mr-2" 
-              disabled={!preview} 
-            />
-            {opt}
-          </label>
-        ))
       case 'radio':
         return field.options.map((opt, i) => (
           <label key={i} className="block">
@@ -50,19 +42,18 @@ export default function Canvas() {
             {opt}
           </label>
         ))
-      case 'file':
-        return <input type="file" {...commonProps} />
-      case 'button':
-        return (
-          <button 
-            className="px-3 py-1 bg-gray-300 rounded" 
-            disabled={!preview} 
-          >
-            {field.label}
-          </button>
-        )
-      case 'header':
-        return <h3 className="text-xl font-bold">{field.label}</h3>
+      case 'checkbox':
+        return field.options.map((opt, i) => (
+          <label key={i} className="block">
+            <input 
+              type="checkbox" 
+              name={field.id} 
+              className="mr-2" 
+              disabled={!preview} 
+            />
+            {opt}
+          </label>
+        ))
       default:
         return <input type={field.inputType} {...commonProps} />
     }
@@ -86,7 +77,7 @@ export default function Canvas() {
           className="p-2 border mb-2 rounded cursor-pointer hover:bg-gray-100"
           onClick={() => setSelectedField(field.id)}
         >
-          {!['header', 'button'].includes(field.inputType) && (
+          {!['header', 'subheader', 'button'].includes(field.inputType) && (
             <label className="block font-medium">{field.label}</label>
           )}
           {renderInput(field)}

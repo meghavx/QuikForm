@@ -17,7 +17,7 @@ export default function FormPreview() {
       const initialErrors = {}
       parsedFields.forEach((f) => {
         if (f.inputType === 'checkbox') {
-          initialValues[f.id] = [] // initialize as array for checkbox group
+          initialValues[f.id] = []
         } else {
           initialValues[f.id] = ''
         }
@@ -75,7 +75,6 @@ export default function FormPreview() {
         return 'Invalid phone number.'
       }
     }
-
     return ''
   }
 
@@ -130,7 +129,15 @@ export default function FormPreview() {
           if (inputType === 'header') {
             return (
               <div key={id}>
-                <h2 className="text-3xl font-bold text-center my-4">{label}</h2>
+                <h2 className="text-4xl font-semibold text-center mt-2 mb-6">{label}</h2>
+              </div>
+            )
+          }
+
+          if (inputType === 'subheader') {
+            return (
+              <div key={id}>
+                <h2 className="text-sm text-justify italic mb-8">{label}</h2>
               </div>
             )
           }
