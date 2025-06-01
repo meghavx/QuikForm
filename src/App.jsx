@@ -8,7 +8,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<FormBuilder />} />
-        <Route path="/forms/:formId" element={<FormPreview />} />
+        <Route path="/forms/shared/:formId" element={<FormPreview />} />
       </Routes>
     </Router>
   )
