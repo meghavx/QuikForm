@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-export default function FormPreview() {
+export default function FormFillerView() {
   const { formId } = useParams()
   const [fields, setFields] = useState([])
   const [values, setValues] = useState({})
