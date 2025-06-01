@@ -9,8 +9,7 @@ import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 export default function FormBuilder() {
   const sensors = useSensors(useSensor(PointerSensor))
   const addField = useFormStore((s) => s.addField)
-  const preview = useFormStore((s) => s.preview)
-
+ 
   const handleDragEnd = (event) => {
     const { over, active } = event
     if (over?.id === 'canvas' && active?.data?.current?.type) {
@@ -22,9 +21,9 @@ export default function FormBuilder() {
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <Header />
       <div className="flex h-screen justify-center">
-        {!preview && <FieldPalette />}
+        <FieldPalette />
         <Canvas />
-        {!preview && <FieldEditor />}
+        <FieldEditor />
       </div>
     </DndContext>
   )
